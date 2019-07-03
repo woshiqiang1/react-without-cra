@@ -3,55 +3,39 @@ const webpack = require("webpack");
 const webpackMerge = require("webpack-merge");
 const PUBLICPATH = "/assets/";
 const PORT = "8080";
-const ENV = process.env.NODE_ENV || "dev";
-let options = {
-  // publicPath: '/', // for `ip:port`, not need `ip:port/${output}`
-  publicPath: PUBLICPATH,
-  loaders: {
-    styles: ["style-loader", "css-loader", "less-loader"],
-    imageAssets: "url-loader?limit=6000&name=[path][name].[ext]?[hash:8]",
-    iconFonts: [
-      {
-        loader: "url-loader",
-        query: {
-          limit: 10000,
-          name: "[path][name].[ext]?[hash:8]"
-        }
-      }
-    ]
-  },
-  globals: {
-    "process.env": {
-      NODE_ENV: JSON.stringify(ENV)
-    },
-    __DEV__: ENV === "dev",
-    __PROD__: ENV === "production",
-    __TEST__: ENV === "test"
-  },
-  beforePlugins: [new webpack.HotModuleReplacementPlugin()]
-};
 
-module.exports = function(args) {
-  options.ROOTPATH = args.ROOTPATH;
-  options.env = args.env;
-  return webpackMerge(require("./base.conf")(options), {
-    devtool: "source-map",
-    devServer: {
-      contentBase: path.join(args.ROOTPATH, "./src"),
-      historyApiFallback: true,
-      inline: true,
-      hot: false,
-      port: PORT,
-      host: "0.0.0.0",
-      proxy: {
-        "/": {
-          bypass: function(req, res, proxyOptions) {
-            console.log("Skipping proxy for browser request.");
-            return `${PUBLICPATH}index.html`;
-          }
+module.exports = webpackMerge(require('./base.conf'), {
+  devtool: "source-map",
+  devServer: {
+    contentBase: path.join(__dirname + '/../', "./src"),
+    historyApiFallback: true,
+    inline: true, // bundle里会插入script来处理热重载，build info会出现在浏览器控制台
+    hot: false, // hot: true, 或者命令行带 --hot, webpack.HotModuleReplacementPlugin会自动加入配置
+    // hotOnly: true, 如果build失败页面不刷新
+    // liveReload: true 文件变更时刷新/重载页面，hot: false，或者设置devServer.watchContentBase才会生效
+    // headers: {'X-Custom-Foo': 'bar'} 设置响应头
+    // lazy: true ,只有被请求的文件才会重新编译，否则即使文件变了也不重新编译
+    // filename: 'abc.js' 指定lazy模式下，懒编译的文件
+    port: PORT,
+    host: "0.0.0.0",// 默认loaclhost
+    proxy: { // 代理urls 当后台开发接口分散，而你只想往一个域里发送API请求时会用到
+      "/": {
+        bypass: function(req, res, proxyOptions) {
+          console.log("Skipping proxy for browser request.");
+          return `${PUBLICPATH}index.html`;
         }
-      }
-    },
-    plugins: []
-  });
-};
+      },
+      "/api": 'http://abc.com',
+      "/api2": { 
+        target: "https://bcd.com",
+        pathRewrite: {'^/api2': ''}, //不传递 /api2 会自动过滤掉/api2 /api2/user => /user
+        changeOrigin: true, //代理服务器会更改HTTP头Host字段为目标服务器，主要用在后台服务托管在虚拟主机的情况，也就是一个IP对应多个域名，需要域名区分服务
+        secure: true //是否验证SSL证书
+      },
+
+    }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
+})
