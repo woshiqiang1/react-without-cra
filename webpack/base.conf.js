@@ -65,7 +65,7 @@ module.exports = {
     ]
   },
   resolve: {
-    modules: ["node_modules/"],
+    modules: ["node_modules/"], // 设置搜索模块的目录
     alias: {
       entryHtml$: path.resolve(ROOTPATH, "src/index.html"),
       components: path.resolve(ROOTPATH, "src/components"),
@@ -78,7 +78,7 @@ module.exports = {
       helper: path.resolve(ROOTPATH, "src/helper/"),
       styles: path.resolve(ROOTPATH, "src/styles/")
     },
-    extensions: [".js", ".jsx", ".json"]
+    extensions: [".js", ".jsx", ".json"] // 同文件名，不同扩展名的文件处理顺序
   },
   plugins: [
     // 创建编译时可以配置的一些全局变量

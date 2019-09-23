@@ -1,13 +1,14 @@
-const path = require("path");
-const webpack = require("webpack");
-const webpackMerge = require("webpack-merge");
-const PUBLICPATH = "/assets/";
-const PORT = "8080";
+const baseConfig = require('./base.conf')
+const path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const PUBLICPATH = '/assets/';
+const PORT = '8080';
 
-module.exports = webpackMerge(require('./base.conf'), {
-  devtool: "source-map",
+module.exports = webpackMerge(baseConfig, {
+  devtool: 'source-map',
   devServer: {
-    contentBase: path.join(__dirname + '/../', "./src"),
+    contentBase: path.join(__dirname + '/../', './src'),
     historyApiFallback: true,
     inline: true, // bundle里会插入script来处理热重载，build info会出现在浏览器控制台
     hot: false, // hot: true, 或者命令行带 --hot, webpack.HotModuleReplacementPlugin会自动加入配置
@@ -17,7 +18,7 @@ module.exports = webpackMerge(require('./base.conf'), {
     // lazy: true ,只有被请求的文件才会重新编译，否则即使文件变了也不重新编译
     // filename: 'abc.js' 指定lazy模式下，懒编译的文件
     port: PORT,
-    host: "0.0.0.0",// 默认loaclhost
+    host: '0.0.0.0',// 默认loaclhost
     proxy: { // 代理urls 当后台开发接口分散，而你只想往一个域里发送API请求时会用到
       "/": {
         bypass: function(req, res, proxyOptions) {
