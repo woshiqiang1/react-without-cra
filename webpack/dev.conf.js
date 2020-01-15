@@ -5,8 +5,8 @@ const webpackMerge = require('webpack-merge');
 const PUBLICPATH = '/assets/';
 const PORT = '8080';
 
-module.exports = webpackMerge(baseConfig, {
-  devtool: 'source-map',
+const config = webpackMerge(baseConfig, {
+  devtool: 'eval-source-map',
   devServer: {
     contentBase: path.join(__dirname + '/../', './src'),
     historyApiFallback: true,
@@ -40,3 +40,5 @@ module.exports = webpackMerge(baseConfig, {
     new webpack.HotModuleReplacementPlugin()
   ]
 })
+
+module.exports = config
