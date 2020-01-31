@@ -1,9 +1,10 @@
 import React from 'react'
 import Counter from 'containers/Counter'
+import List from 'containers/list/List'
+
 const App = () => (
     <>
-      <div>hello react</div>
-      <Counter />
+      <List />
     </>
 )
 
