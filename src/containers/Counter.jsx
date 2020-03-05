@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from 'antd';
 import './index.less'
 
 const Counter = () => {
@@ -7,9 +8,9 @@ const Counter = () => {
   return (
     <>
       <div className="container">{count}</div>
-      <button onClick={() => {setCount(count + 1)}}>+</button>
+      <Button type='primary' onClick={() => {setCount(count + 1)}}>+</Button>
 
-      <button onClick={() => {setCount(count - 1)}}>-</button>
+      <Button onClick={() => {setCount(count - 1)}}>-</Button>
     </>
   );
 };

@@ -2,14 +2,12 @@ const baseConfig = require('./base.conf')
 const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const PUBLICPATH = '/assets/';
 const PORT = '8080';
 
 const config = webpackMerge(baseConfig, {
   devtool: 'eval-source-map',
   devServer: {
-    contentBase: path.join(__dirname + '/../', './src'),
-    historyApiFallback: true,
+    historyApiFallback: true, // 使用browserHistory时，把404重定向到/index.html
     inline: true, // bundle里会插入script来处理热重载，build info会出现在浏览器控制台
     hot: false, // hot: true, 或者命令行带 --hot, webpack.HotModuleReplacementPlugin会自动加入配置
     // hotOnly: true, 如果build失败页面不刷新
@@ -20,12 +18,6 @@ const config = webpackMerge(baseConfig, {
     port: PORT,
     host: '0.0.0.0',// 默认loaclhost
     proxy: { // 代理urls 当后台开发接口分散，而你只想往一个域里发送API请求时会用到
-      "/": {
-        bypass: function(req, res, proxyOptions) {
-          console.log("Skipping proxy for browser request.");
-          return `${PUBLICPATH}index.html`;
-        }
-      },
       "/api": 'http://abc.com',
       "/api2": { 
         target: "https://bcd.com",
