@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import { Layout, Icon } from 'antd'
-import SiderMenu from './components/siderMenu'
+import React, { useState } from 'react';
+import { Layout, Icon } from 'antd';
+import SiderMenu from './components/siderMenu';
 import './index.less';
 
 const { Header, Sider, Content } = Layout;
 
-const App = (props) => {
-
-  const [ collapsed, setCollapsed ] = useState(false)
+const App = props => {
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Layout id={'container'}>
@@ -20,7 +19,9 @@ const App = (props) => {
           <Icon
             className="trigger"
             type={collapsed ? 'menu-unfold' : 'menu-fold'}
-            onClick={() => {setCollapsed(!collapsed)}}
+            onClick={() => {
+              setCollapsed(!collapsed);
+            }}
           />
         </Header>
         <Content
@@ -35,6 +36,7 @@ const App = (props) => {
         </Content>
       </Layout>
     </Layout>
-)}
+  );
+};
 
-export default App
+export default App;

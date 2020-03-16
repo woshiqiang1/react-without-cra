@@ -1,25 +1,24 @@
-import React, { Component } from 'react'
-import { List } from 'react-virtualized'
+import React, { Component } from 'react';
+import { List } from 'react-virtualized';
 
 class ListWithBigData extends Component {
   state = {
-    list: []
-  }
-
+    list: [],
+  };
 
   componentDidMount() {
-    let list = []
-    for(let i = 0; i < 5000; i++){
-      list.push(i)
+    let list = [];
+    for (let i = 0; i < 5000; i++) {
+      list.push(i);
     }
-    this.setState({list})
+    this.setState({ list });
   }
 
-  rowRenderer({ key, index, style, isScrolling, isVisible }){
+  rowRenderer({ key, index, style, isScrolling, isVisible }) {
     return (
       <div key={key} style={style}>
         <div>
-          <input type="text"/>
+          <input type="text" />
         </div>
         <div>
           <select name="123" id="select">
@@ -29,13 +28,13 @@ class ListWithBigData extends Component {
           </select>
         </div>
         <div>
-          <textArea value={this.state.list[index]}></textArea>
+          <textArea value={this.state.list[index]} />
         </div>
       </div>
-    )
+    );
   }
 
-  render(){
+  render() {
     return (
       <List
         width={800}
@@ -44,9 +43,8 @@ class ListWithBigData extends Component {
         rowHeight={120}
         rowRenderer={this.rowRenderer.bind(this)}
       />
-
-    )
+    );
   }
 }
 
-export default ListWithBigData
+export default ListWithBigData;

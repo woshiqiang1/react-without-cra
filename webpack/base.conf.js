@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const ROOTPATH = __dirname + '/../'
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.JS_ENV === 'production'
 
 module.exports = {
   name: "browser",
@@ -112,10 +112,10 @@ module.exports = {
     // 创建编译时可以配置的一些全局变量
     // DefinePlugin只是来执行process.env.NODE_ENV的查找和替换操作，
     // 构建脚本 webpack.config.js 中的 process.env.NODE_ENV 并不会被设置为 "production"
-    // 可以通过cross-env在npm脚本中注入变量
+    // 可以通过cross-env在npm脚本中注入变量如：JS_ENV
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        'JS_ENV': JSON.stringify(process.env.JS_ENV)
       }
     }),
 
