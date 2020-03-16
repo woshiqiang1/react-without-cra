@@ -13,8 +13,10 @@ function SiderMenu () {
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Icon type="video-camera" />
-        <span>nav 2</span>
+        <Link to={'list'}>
+          <Icon type="video-camera" />
+          <span>nav 2</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key="3">
         <Icon type="upload" />
