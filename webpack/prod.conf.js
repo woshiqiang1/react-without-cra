@@ -4,6 +4,7 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const config = webpackMerge(CommonConfig, {
   plugins: [
@@ -31,7 +32,16 @@ const config = webpackMerge(CommonConfig, {
     //代替原本的CommonsChunkPlugin的runtime
     runtimeChunk: 'single',
     moduleIds: "hashed",
-    // minimize: false
+    // minimize: false, // default true
+    minimizer: [
+      new UglifyJSPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true, // 生产打包，移除console.log
+          }
+        }
+      })
+    ]
   },
 })
 

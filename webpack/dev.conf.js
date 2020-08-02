@@ -15,17 +15,25 @@ const config = webpackMerge(baseConfig, {
     // headers: {'X-Custom-Foo': 'bar'} 设置响应头
     // lazy: true ,只有被请求的文件才会重新编译，否则即使文件变了也不重新编译
     // filename: 'abc.js' 指定lazy模式下，懒编译的文件
+    compress: true,
     port: PORT,
-    host: '0.0.0.0',// 默认loaclhost
+    host: '127.0.0.1',// 默认loaclhost
     proxy: { // 代理urls 当后台开发接口分散，而你只想往一个域里发送API请求时会用到
-      "/api": 'http://abc.com',
+      "/api": {
+        target: 'http://abc.com',
+        changeOrigin: true,
+      },
       "/api2": { 
         target: "https://bcd.com",
         pathRewrite: {'^/api2': ''}, //不传递 /api2 会自动过滤掉/api2 /api2/user => /user
         changeOrigin: true, //代理服务器会更改HTTP头Host字段为目标服务器，主要用在后台服务托管在虚拟主机的情况，也就是一个IP对应多个域名，需要域名区分服务
         secure: true //是否验证SSL证书
       },
-
+      allowedHosts: [
+        ".icsoc.net",
+        "*",
+      ],
+      // '.host.com',//可以匹配所有xx.host.com
     }
   },
   plugins: [

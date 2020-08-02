@@ -1,21 +1,16 @@
-const OPT_SUCCESS = 'common/OPT_SUCCESS';
-const OPT_ERROR = 'common/OPT_ERROR';
-const OPT_LOADING = 'common/OPT_LOADING';
+const OPT_SUCCESS = 'common/OPT_SUCCESS'
+const OPT_ERROR = 'common/OPT_ERROR'
+const OPT_LOADING = 'common/OPT_LOADING'
 
+const initialState = {}
 
-
-const initialState = {
-  
-}
-
-export const reducer = (state=initialState, action) => {
+export const reducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     default:
       return state
   }
 }
-
 
 export const commonActionCreators = {
   optLoading(data) {
@@ -36,5 +31,5 @@ export const commonActionCreators = {
       type: OPT_ERROR,
       data
     }
-  },
+  }
 }
